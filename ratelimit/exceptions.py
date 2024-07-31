@@ -1,4 +1,9 @@
-from .base_backend import BaseBackendException
+class BaseBackendException(Exception):
+    """
+    Base class for exception raised by Backends
+    """
+
+    pass
 
 
 class BackendConnectionException(BaseBackendException):

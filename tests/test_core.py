@@ -179,7 +179,7 @@ async def test_custom_on_backend_error():
         assert response.text == "custom 503 page"
 
 
-def yourself_503(retry_after: int):
+def yourself_503(err: Exception):
     async def inside_yourself_503(scope: Scope, receive: Receive, send: Send) -> None:
         await send({"type": "http.response.start", "status": 503})
         await send(

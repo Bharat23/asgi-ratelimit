@@ -24,7 +24,7 @@ def _on_blocked(retry_after: int) -> ASGIApp:
     return default_429
 
 
-def _on_backend_error(err) -> ASGIApp:
+def _on_backend_error(err: Exception) -> ASGIApp:
     async def default_503(scope: Scope, receive: Receive, send: Send) -> None:
         await send(
             {
@@ -51,7 +51,7 @@ class RateLimitMiddleware:
         *,
         on_auth_error: Optional[Callable[[Exception], Awaitable[ASGIApp]]] = None,
         on_blocked: Callable[[int], ASGIApp] = _on_blocked,
-        on_backend_error: Callable[[int], ASGIApp] = _on_backend_error,
+        on_backend_error: Callable[[Exception], ASGIApp] = _on_backend_error,
     ) -> None:
         self.app = app
         self.authenticate = authenticate
